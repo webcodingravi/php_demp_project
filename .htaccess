@@ -1,0 +1,8 @@
+RewriteEngine On
+
+# अगर file या folder exist नहीं करता
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# सब requests index.php में भेजो
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
