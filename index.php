@@ -1,45 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Practice Work</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-    tailwind.config = {
-        theme: {
-            extend: {
-                colors: {
-                    primary: '#1e40af',
-                    secondary: '#64748b',
-                    accent: '#f59e0b',
-                }
-            }
-        }
-    }
-    </script>
-
-</head>
-
-<body>
-    <?php
+<?php
 session_start();
+
 $root = __DIR__;
 
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') 
     ? "https://" 
     : "http://";
+    
 
 $base_url = $protocol . $_SERVER['HTTP_HOST'] 
           . rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 
+
+   
 $url = trim($_GET['url'] ?? '', '/');
+    
 
 /* ================= ADMIN ROUTES ================= */
 if (strpos($url, 'admin') === 0) {
 
+    if(!in_array($url,['admin','admin/login','admin/auth'])) {
+        if(!isset($_SESSION['admin'])) {
+            header("Location:$base_url/admin/login");
+            exit;
+        }
+    }
     if ($url === 'admin' || $url === 'admin/login') {
         include $root . "/views/auth/login.php";
 
@@ -52,37 +37,50 @@ if (strpos($url, 'admin') === 0) {
     }
     
     elseif ($url === 'admin/dashboard') {
-        include $root . "/views/admin/dashboard.php";
+       
+        include $root . "/views/admin/layout/header.php";
+        include $root . "/views/admin/layout/sidebar.php";
 
-    } else {
+        include $root . "/views/admin/pages/dashboard.php";
+        include $root . "/views/admin/layout/footer.php";
+
+
+    }elseif($url === "admin/logout") {
+        session_unset();
+        session_destroy();
+        header("Location:$base_url/admin/login");
+        exit;
+    }
+    
+    else {
         include $root . "/views/NotFound.php";
     }
 
 /* ================= FRONT ROUTES ================= */
 } else {
 
-    include $root . "/views/front/common/header.php";
+    include $root . "/views/front/layout/header.php";
 
     switch ($url) {
 
         case '':
-            include $root . "/views/front/home.php";
+            include $root . "/views/front/pages/home.php";
             break;
 
         case 'about':
-            include $root . "/views/front/about.php";
+            include $root . "/views/front/pages/about.php";
             break;
 
         case 'services':
-            include $root . "/views/front/services.php";
+            include $root . "/views/front/pages/services.php";
             break;
 
         case 'portfolio':
-            include $root . "/views/front/portfolio.php";
+            include $root . "/views/front/pages/portfolio.php";
             break;
 
         case 'contact':
-            include $root . "/views/front/contact.php";
+            include $root . "/views/front/pages/contact.php";
             break;
 
         default:
@@ -90,10 +88,6 @@ if (strpos($url, 'admin') === 0) {
             break;
     }
 
-    include $root . "/views/front/common/footer.php";
+    include $root . "/views/front/layout/footer.php";
 }
 ?>
-
-</body>
-
-</html>

@@ -131,13 +131,13 @@
 </section>
 
 <!-- CTA Section -->
-<section class="py-20 bg-primary">
+<section class="py-20 bg-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 class="text-4xl font-bold text-white mb-4">Ready to Get Started?</h2>
         <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">Join thousands of satisfied customers who have
             transformed their business with our solutions.</p>
         <a href="#"
-            class="inline-block bg-white text-primary px-10 py-4 rounded-lg text-lg font-bold hover:bg-gray-100 transition shadow-lg">
+            class="inline-block bg-white text-gray-700 px-10 py-4 rounded-lg text-lg font-bold hover:bg-gray-100 transition shadow-lg">
             Contact Us Today <i class="fas fa-arrow-right ml-2"></i>
         </a>
     </div>
