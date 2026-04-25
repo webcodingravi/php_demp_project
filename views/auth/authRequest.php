@@ -4,14 +4,14 @@ include_once $root. "/config/db.php";
 $errors = [];
 $old = [];
 if(isset($_POST['login'])) {
-    $email = trim($_POST['email']) ?? '';
+    $email = trim($_POST['email'] ?? '');
     $old['email'] = $email;
     if(empty($email)) {
        $errors['email'] = "Email is Required";
     }elseif(!filter_var($email,FILTER_VALIDATE_EMAIL)) {
-        $errors['email'] = "Invalid Email Formate";
+        $errors['email'] = "Invalid Email Format";
     }
-    $password = trim($_POST['password']) ?? '';
+    $password = trim($_POST['password'] ?? '');
 
     if(empty($password)) {
         $errors['password'] = "Password is Required";

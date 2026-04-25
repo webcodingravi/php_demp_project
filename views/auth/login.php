@@ -27,13 +27,8 @@
 
 <body>
     <?php 
-       $errors = $_SESSION['errors'] ?? '';
-       $old = $_SESSION['old'] ?? '';
-       $errorMessage = $_SESSION['error-message'] ?? '';
-
-       unset($_SESSION['errors'], $_SESSION['old'], $_SESSION['error-message']);
-
-      
+       $errors = getErrors();
+    
     
     ?>
     <div class="absolute top-2 right-4">
@@ -68,31 +63,53 @@
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                 <i class="fas fa-envelope text-gray-400"></i>
                             </div>
-                            <input type="email" name="email" value="<?= $old['email'] ?? '' ?>"
-                                class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition"
+                            <input type="email" name="email" value="<?= old('email') ?>" class=" w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2
+                                focus:ring-primary focus:border-transparent outline-none transition"
                                 placeholder="admin@example.com">
 
                         </div>
-                        <span class="text-rose-500">
-                            <?= $errors['email'] ?? '' ?></span>
+
+                        <?php if(isset($errors['email'])): ?>
+                        <span class="text-rose-500"> <?= $errors['email'] ?></span>
+                        <?php endif; ?>
                     </div>
 
                     <!-- Password Field -->
                     <div>
                         <label class="block text-gray-700 font-medium mb-2">Password</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <div class="relative" x-data="{show:false}">
+                            <div class=" absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                 <i class="fas fa-lock text-gray-400"></i>
                             </div>
-                            <input type="password" name="password"
+                            <input :type="show ? 'text' : 'password'" name="password"
                                 class="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition"
                                 placeholder="••••••••">
-                            <button type="button" class="absolute inset-y-0 right-0 pr-4 flex items-center">
-                                <i class="fas fa-eye text-gray-400 hover:text-gray-600 cursor-pointer"></i>
-                            </button>
+                            <div @click="show = !show" class="absolute right-4 top-4 text-gray-500 cursor-pointer">
+                                <!-- Eye (show password) -->
+                                <svg x-show="!show" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path
+                                        d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+
+                                <!-- Eye Off (hide password) -->
+                                <svg x-show="show" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+                                    viewBox="0 0 24 24" view stroke="currentColor" stroke-width="2">
+                                    <path
+                                        d="M10.733 5.076A10.744 10.744 0 0 1 12 5c5 0 9.27 3.11 10.938 7a1 1 0 0 1 0 .696 10.75 10.75 0 0 1-4.043 4.568" />
+                                    <path d="M14.12 14.12a3 3 0 1 1-4.243-4.243" />
+                                    <path d="M2 2l20 20" />
+                                    <path
+                                        d="M4.94 4.94A10.75 10.75 0 0 0 1.062 12c1.668 3.89 5.938 7 10.938 7 1.44 0 2.82-.29 4.06-.82" />
+                                </svg>
+                            </div>
                         </div>
-                        <span class="text-rose-500">
-                            <?= $errors['password'] ?? '' ?></span>
+
+                        <?php if(isset($errors['password'])): ?>
+                        <span class="text-rose-500"> <?= $errors['password'] ?></span>
+                        <?php endif; ?>
+
                     </div>
 
                     <!-- Remember & Forgot -->

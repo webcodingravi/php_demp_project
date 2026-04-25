@@ -10,11 +10,15 @@
     </div> <!-- Navigation -->
     <nav class="flex-1 overflow-y-auto py-4">
         <div class="px-4 mb-2"> <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Main</span>
-        </div> <a href="#" class="flex items-center px-4 py-3 bg-primary text-white"> <i
-                class="fas fa-tachometer-alt w-6"></i> <span class="font-medium">Dashboard</span> </a> <a href="#"
-            class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition"> <i
-                class="fas fa-chart-line w-6"></i> <span class="font-medium">Analytics</span> </a> <a href="#"
-            class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition"> <i
+        </div> <a href="<?=$base_url ?>/admin/dashboard"
+            class="flex items-center px-4 py-3 <?= ($url === 'admin/dashboard') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-50' ?>">
+            <i class="fas fa-tachometer-alt w-6"></i>
+            <span class="font-medium">Dashboard</span> </a>
+        <a href="<?=$base_url ?>/admin/services"
+            class="flex items-center px-4 py-3  transition <?= ($url === 'admin/services') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-50' ?>">
+            <i class="fas fa-chart-line w-6"></i>
+            <span class="font-medium">Services</span> </a>
+        <a href="#" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition"> <i
                 class="fas fa-shopping-cart w-6"></i> <span class="font-medium">Orders</span> <span
                 class="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">12</span> </a> <a href="#"
             class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition"> <i
@@ -24,19 +28,23 @@
         <div class="px-4 mt-6 mb-2"> <span
                 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Settings</span> </div> <a href="#"
             class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition"> <i
-                class="fas fa-cog w-6"></i> <span class="font-medium">Settings</span> </a> <a
-            href="<?= $base_url ?>/admin/logout" onclick="return confirm('Are you sure you want to logout?')"
-            class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition"> <i
-                class="fas fa-sign-out-alt w-6"></i> <span class="font-medium">Logout</span> </a>
+                class="fas fa-cog w-6"></i> <span class="font-medium">Settings</span> </a>
     </nav> <!-- User Info -->
     <div class="p-4 border-t border-gray-200">
-        <div class="flex items-center"> <img src="https://via.placeholder.com/40" alt="Admin"
-                class="w-10 h-10 rounded-full">
+        <div class="flex">
+            <img src="https://randomuser.me/api/portraits/men/4.jpg
+" alt="Admin" class="w-10 h-10 rounded-full">
             <div class="ml-3">
                 <p class="text-sm font-medium text-gray-800">
                     <?= $_SESSION['user']['name'] ?? '' ?></p>
-                <p class="text-xs text-gray-500"><?= $_SESSION['user']['email'] ?? '' ?></p>
+                <p class="text-xs text-gray-500"><?= $_SESSION['user']['email'] ?? '' ?></p> <a
+                    href="<?= $base_url ?>/admin/logout" onclick="return confirm('Are you sure you want to logout?')"
+                    class="flex items-center  text-gray-700 hover:bg-gray-50 transition text-sm mt-2"> <i
+                        class="fas fa-sign-out-alt w-6"></i> <span class="font-medium">Logout</span> </a>
+
+
             </div>
+
         </div>
     </div>
 </aside>

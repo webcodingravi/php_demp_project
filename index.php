@@ -1,7 +1,10 @@
 <?php
 session_start();
-
 $root = __DIR__;
+
+include $root."/core/helpers.php";
+
+
 
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') 
     ? "https://" 
@@ -25,7 +28,11 @@ if (strpos($url, 'admin') === 0) {
             exit;
         }
     }
+    
     if ($url === 'admin' || $url === 'admin/login') {
+        if(isset($_SESSION['admin'])) {
+            header("Location:$base_url/admin/dashboard");
+        }
         include $root . "/views/auth/login.php";
 
     }
@@ -36,57 +43,78 @@ if (strpos($url, 'admin') === 0) {
 
     }
     
-    elseif ($url === 'admin/dashboard') {
-       
-        include $root . "/views/admin/layout/header.php";
-        include $root . "/views/admin/layout/sidebar.php";
-
-        include $root . "/views/admin/pages/dashboard.php";
-        include $root . "/views/admin/layout/footer.php";
-
-
-    }elseif($url === "admin/logout") {
+    
+    elseif($url === "admin/logout") {
         session_unset();
         session_destroy();
         header("Location:$base_url/admin/login");
         exit;
     }
     
-    else {
-        include $root . "/views/NotFound.php";
+ else{
+
+     // 👉 Dynamic page load
+        $page = str_replace('admin/', '', $url);
+
+        $title = ucfirst($page) . " - Admin Panel";
+        include $root . "/views/admin/layout/header.php";
+        include $root . "/views/admin/layout/sidebar.php";
+
+
+        $file = $root . "/views/admin/pages/$page.php";
+
+        if (file_exists($file)) {
+            include $file;
+        } else {
+            include $root . "/views/NotFound.php";
+        }
+
+        include $root . "/views/admin/layout/footer.php";
     }
+    
 
 /* ================= FRONT ROUTES ================= */
-} else {
-
-    include $root . "/views/front/layout/header.php";
+}else{ 
+     $title = "My Website";
 
     switch ($url) {
 
         case '':
-            include $root . "/views/front/pages/home.php";
+            $title = "Home";
+            $page = "home.php";
             break;
 
         case 'about':
-            include $root . "/views/front/pages/about.php";
+            $title = "About Us";
+            $page = "about.php";
             break;
 
         case 'services':
-            include $root . "/views/front/pages/services.php";
+            $title = "Services";
+            $page = "services.php";
             break;
 
         case 'portfolio':
-            include $root . "/views/front/pages/portfolio.php";
+            $title = "Portfolio";
+            $page = "portfolio.php";
             break;
 
         case 'contact':
-            include $root . "/views/front/pages/contact.php";
+            $title = "Contact";
+            $page = "contact.php";
             break;
 
         default:
-            include $root . "/views/NotFound.php";
+            $title = "Not Found";
+            $page = "../NotFound.php";
             break;
     }
+
+  
+    include $root . "/views/front/layout/header.php";
+
+
+    include $root . "/views/front/pages/$page";
 
     include $root . "/views/front/layout/footer.php";
 }
